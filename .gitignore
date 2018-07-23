@@ -1,0 +1,5 @@
+/.vs
+/.vscode
+*.pyc
+chat_xml_res
+.pytest_cache
