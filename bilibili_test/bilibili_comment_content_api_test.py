@@ -34,13 +34,6 @@ def test_cid_xml_file():
     assert root[1].text == "38842914"
 
 
-def test_get_comment_with_null_data():
-    with pytest.raises(Exception, match=r"不需要爬取資料，資料已存在或沒有輸入av號"):
-        get_comment_data("")
-    os.chdir('../')
-    os.rmdir('chat_xml_res')
-
-
 def test_get_comment_data():
     get_comment_data([AV_NUMBER_MANY_P])
     os.chdir('chat_xml_res')
