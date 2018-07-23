@@ -12,6 +12,7 @@ def main():
     parser.add_argument('-a', '--avnumbers', nargs='*', help="下載AV號 -a av123456 av...")
     parser.add_argument('-o', '--output', help="輸出位置", default="chat_xml_res/")
     # TODO: 加入可以從檔案讀取avnumber
+    # 像是csv檔案用\t切開的文字檔
 
     DEFAULT_DIR = os.getcwd()
     args = parser.parse_args()
@@ -25,6 +26,7 @@ def main():
                 print("    " + av + "下載完成")
             except Exception as e:
                 print("    " + av + "下載失敗")
+                # FIXME: 在get_comment_data時 如果出錯就會回不到原本的目錄 手動返回OAO
                 os.chdir(DEFAULT_DIR)
             
             
