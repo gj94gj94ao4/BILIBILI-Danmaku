@@ -20,7 +20,7 @@ def main():
     
 
     if args.avnumbers != None:
-        print(str.format("下載xml至{0}{1}:",os.getcwd().replace('\\','/'), args.output))
+        print(str.format("下載xml至{0}{1}:",os.getcwd().replace('\\','/') + "/", args.output))
         for av in args.avnumbers:
             try:
                 get_comment_data([av], args.output)
@@ -28,13 +28,10 @@ def main():
             except Exception as e:
                 print("    " + av + "下載失敗" )
                 er = traceback.format_exc()
+                print(er)
                 # FIXME: 在get_comment_data時 如果出錯就會回不到原本的目錄 手動返回OAO
                 os.chdir(DEFAULT_DIR)
-            finally:
-                print(er)
             
-            
-
 
 
 if __name__ == "__main__":
