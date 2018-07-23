@@ -1,4 +1,5 @@
 import argparse
+import traceback
 import os
 import sys
 sys.path.append("../../")
@@ -25,9 +26,12 @@ def main():
                 get_comment_data([av], args.output)
                 print("    " + av + "下載完成")
             except Exception as e:
-                print("    " + av + "下載失敗")
+                print("    " + av + "下載失敗" )
+                er = traceback.format_exc()
                 # FIXME: 在get_comment_data時 如果出錯就會回不到原本的目錄 手動返回OAO
                 os.chdir(DEFAULT_DIR)
+            finally:
+                print(er)
             
             
 

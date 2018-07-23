@@ -24,16 +24,18 @@ def find_cid_with_aid(av_number):
     req = requests.get(parse.urljoin(MAIN_HOST_URL, av_number))
     bf = BeautifulSoup(req.text, 'html.parser')
     scripts_tag = bf.find_all("script")
-
     start = re.escape("window.__INITIAL_STATE__=")
     end = re.escape(
         ";(function(){var s;(s=document.currentScript||document.scripts[document.scripts.length-1]).parentNode.removeChild(s);}());")
-    m = re.match(start + "(.+)" + end, scripts_tag[3].string)
-    results = json.loads(m.group(1))
-    ret_list = list()
-    for video in results["videoData"]["pages"]:
-        ret_list.append(str(video["cid"]))
-    return ret_list
+    for tag in scripts_tag:
+        m = re.match(start + "(.+)" + end, str(tag.string))
+        if m != None:
+            results = json.loads(m.group(1))
+            ret_list = list()
+            for video in results["videoData"]["pages"]:
+                ret_list.append(str(video["cid"]))
+            return ret_list
+    return None
 
 
 def cid_xml_file(cid):
@@ -60,7 +62,7 @@ def get_comment_data(av_numbers, store="chat_xml_res/"):
     exist = os.listdir('.')
     request_list = [i for i in av_numbers if i not in exist]
     if len(request_list) == 0:
-        raise Exception("不需要爬取資料，資料已存在或沒有輸入av號", request_list)
+        print("Warning 沒有需要下載的檔案")
     for av_number in request_list:
         req_cids = find_cid_with_aid(av_number)
         os.mkdir("./" + av_number)
