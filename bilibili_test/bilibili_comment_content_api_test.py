@@ -35,7 +35,7 @@ def test_cid_xml_file():
 
 
 def test_get_comment_data():
-    get_comment_data([AV_NUMBER_MANY_P])
+    get_comment_data([AV_NUMBER_MANY_P], __file__+"/../chat_xml_res")
     os.chdir('chat_xml_res')
     os.chdir(AV_NUMBER_MANY_P)
     need = ['11241604.xml', '11267060.xml', '11285238.xml', '11305727.xml', '11325525.xml', '11392206.xml', '11428311.xml']

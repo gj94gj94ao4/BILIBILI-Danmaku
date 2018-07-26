@@ -12,7 +12,7 @@ PACKAGE_NAME = "bilibili_crawler"
 DEFAULT_DIR = ''
 
 
-def find_cid_with_aid(av_number):
+def find_cid_with_aid(av_number: str) -> list():
     """
     用bilibili的av號，查找出對應的cid(commend_id)
     回傳cid_list
@@ -38,25 +38,25 @@ def find_cid_with_aid(av_number):
     return None
 
 
-def cid_xml_file(cid):
+def cid_xml_file(cid: str):
     """
     用cid在目錄下瀉入檔案(cid).xml
     """
-    fd_name = str(cid) + ".xml"
+    fd_name = cid + ".xml"
     req = requests.get(COMMENT_REQUEST_URL + fd_name)
     req.encoding = 'utf-8'
     with open(fd_name, 'w', encoding="utf-8") as f:
         f.write(req.text)
 
 
-def get_comment_data(av_numbers, store="chat_xml_res/"):
+def get_comment_data(av_numbers: str, store="chat_xml_res/"):
     """
     可以下載xml檔案給api讀取
     預設目錄是 current work dir 的 chat_xml_res/
     """
     try:
         os.mkdir(store)
-    except FileExistsError as identifier:
+    except FileExistsError:
         pass
     os.chdir(store)
     exist = os.listdir('.')

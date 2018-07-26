@@ -20,13 +20,13 @@ def _get_all_av():
     if len(CHAT_RES_LIST) == 0:
         raise Exception("資料陣列無內容")
 
-# TODO:返還{"time":"comment", ... }
+
 @checked
 def get_av_comments_list(av, cid=""):
     """
     用av號找尋該影片所有的留言與時軸
     若有多p則必須給cid，不然就會返還
-    第一個
+    首個回文資訊
     (sec,user,text)
     """
     print(os.getcwd())
