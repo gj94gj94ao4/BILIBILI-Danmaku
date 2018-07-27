@@ -31,11 +31,14 @@ def find_cid_with_aid(av_number: str) -> list():
         m = re.match(start + "(.+)" + end, str(tag.string))
         if m != None:
             results = json.loads(m.group(1))
-            ret_list = list()
-            for video in results["videoData"]["pages"]:
-                ret_list.append(str(video["cid"]))
-            return ret_list
-    return None
+            if len(results["error"]) == 0:
+                ret_list = list()
+                for video in results["videoData"]["pages"]:
+                    ret_list.append(str(video["cid"]))    
+                return ret_list
+            else: 
+                raise Exception(results["error"])
+    raise Exception("Html parse JSON failed.")
 
 
 def cid_xml_file(cid: str):
@@ -49,25 +52,20 @@ def cid_xml_file(cid: str):
         f.write(req.text)
 
 
-def get_comment_data(av_numbers: str, store="chat_xml_res/"):
+def get_comment_data(av_number: str, store="chat_xml_res/"):
     """
     可以下載xml檔案給api讀取
     預設目錄是 current work dir 的 chat_xml_res/
     """
+    my_path = os.getcwd()
     try:
         os.mkdir(store)
     except FileExistsError:
         pass
+    req_cids = find_cid_with_aid(av_number)
     os.chdir(store)
-    exist = os.listdir('.')
-    request_list = [i for i in av_numbers if i not in exist]
-    if len(request_list) == 0:
-        print("Warning 沒有需要下載的檔案")
-    for av_number in request_list:
-        req_cids = find_cid_with_aid(av_number)
-        os.mkdir("./" + av_number)
-        os.chdir(av_number)
-        for req_cid in req_cids:
-            cid_xml_file(req_cid)
-        os.chdir("..")
-    os.chdir('..')
+    os.mkdir(av_number)
+    os.chdir(av_number)
+    for req_cid in req_cids:
+        cid_xml_file(req_cid)
+    os.chdir(my_path)

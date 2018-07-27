@@ -15,23 +15,21 @@ def main():
     # TODO: 加入可以從檔案讀取avnumber
     # 像是csv檔案用\t切開的文字檔
 
-    DEFAULT_DIR = os.getcwd()
     args = parser.parse_args()
     
 
     if args.avnumbers != None:
-        print(str.format("下載xml至{0}{1}:",os.getcwd().replace('\\','/') + "/", args.output))
+        print(str.format("下載xml至{0}:",os.path.abspath(args.output)))
         for av in args.avnumbers:
             try:
-                get_comment_data([av], args.output)
-                print("    " + av + "下載完成")
+                get_comment_data(av, args.output)
+                print(str.format("\t{0} 下載完成", av))
+                
+            except FileExistsError:
+                os.chdir("../")
+                print(str.format("\t{0} 檔案已存在", av))
             except Exception as e:
-                print("    " + av + "下載失敗" )
-                er = traceback.format_exc()
-                print(er)
-                # FIXME: 在get_comment_data時 如果出錯就會回不到原本的目錄 手動返回OAO 需要修正comment_api送出的錯誤
-                os.chdir(DEFAULT_DIR)
-            
+                print(str.format("\t{0} 錯誤:{1}", av, e.args[0]))
 
 
 if __name__ == "__main__":
