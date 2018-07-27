@@ -43,7 +43,7 @@ def find_cid_with_aid(av_number: str) -> list():
 
 def cid_xml_file(cid: str):
     """
-    用cid在目錄下瀉入檔案(cid).xml
+    用cid在目錄下寫入檔案(cid).xml
     """
     fd_name = cid + ".xml"
     req = requests.get(COMMENT_REQUEST_URL + fd_name)
