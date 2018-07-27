@@ -2,7 +2,7 @@ import argparse
 import traceback
 import os
 import sys
-sys.path.append("../../")
+sys.path.append(os.path.realpath("../"))
 
 from bilibili.bilibili_comment_content_api import get_comment_data
 
@@ -29,7 +29,7 @@ def main():
                 print("    " + av + "下載失敗" )
                 er = traceback.format_exc()
                 print(er)
-                # FIXME: 在get_comment_data時 如果出錯就會回不到原本的目錄 手動返回OAO
+                # FIXME: 在get_comment_data時 如果出錯就會回不到原本的目錄 手動返回OAO 需要修正comment_api送出的錯誤
                 os.chdir(DEFAULT_DIR)
             
 
