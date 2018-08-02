@@ -2,7 +2,9 @@ import argparse
 import traceback
 import os
 import sys
-sys.path.append(os.path.realpath("../"))
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + "../"))
+
+print(sys.path)
 
 from bilibili.bilibili_comment_content_api import get_comment_data
 
